@@ -11,6 +11,7 @@
     <a href="https://www.mongodb.com/"><img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" /></a>
     <a href="https://cloud.google.com/run"><img src="https://img.shields.io/badge/Google_Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white" alt="GCP" /></a>
     <a href="https://ai.google.dev/"><img src="https://img.shields.io/badge/Gemini_AI-8E75B2?style=for-the-badge&logo=google-bard&logoColor=white" alt="Gemini" /></a>
+    <a href="https://github.com/features/actions"><img src="https://img.shields.io/badge/CI/CD-GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white" alt="GitHub Actions" /></a>
   </p>
 </div>
 
@@ -18,16 +19,16 @@
 
 ## 📖 Overview
 
-**NirmaanNow** isn't just a habit tracker—it's a holistic, highly technological environment designed to help you architect a better life. Featuring an ethereal, glassmorphic UI and an omnipresent AI companion powered by Google Gemini, NirmaanNow learns your habits, tracks your moods, and provides deeply personalized insights.
+**NirmaanNow** isn't just a habit tracker—it's a holistic, highly technological environment designed to help you architect a better life. Featuring an ethereal UI and an omnipresent AI companion powered by Google Gemini, NirmaanNow learns your habits, tracks your moods, and provides deeply personalized insights.
 
 ## ✨ Core Features
 
-* 🤖 **Context-Aware Gemini AI:** An omnipresent AI companion (`OmniAssistant`) that reads your habits and moods to give personalized, empathetic advice. Features native **Voice Input (Speech-to-Text)** and a beautiful typewriter text-reveal UI.
-* 🌌 **Ethereal Glassmorphism Design:** A deep cosmic navy aesthetic, floating glass panels, glowing accents, and fluid `Framer Motion` micro-animations.
+* 🤖 **Context-Aware Gemini AI:** An omnipresent AI companion (`OmniAssistant`) with **Conversation Memory**. It reads your habits and moods to give personalized, empathetic advice. Features native **Voice Input (Speech-to-Text)** and a beautiful typewriter text-reveal UI.
 * 📈 **Advanced Analytics:** High-end data visualizations using `Recharts` to map your emotional and productivity trends.
 * 🎯 **Smart Habit & Goal Tracking:** Visually rewarding milestone tracking and progress bars.
 * 📓 **Serene Journaling:** A beautiful, distraction-free environment for daily reflection.
-* 🔐 **Secure Authentication:** Integrated Google OAuth and secure JWT-based email/password authentication.
+* 🔐 **Secure Authentication:** Integrated Google OAuth and secure JWT-based authentication.
+* 🚀 **Automated CI/CD:** Seamlessly deployed using GitHub Actions with Google Workload Identity Federation (Keyless Auth).
 
 ---
 
@@ -35,11 +36,10 @@
 
 ### Frontend Architecture
 * **Framework:** React 19 + Vite (TypeScript)
-* **Styling:** Tailwind CSS with a custom-built Glassmorphism Design System.
+* **Styling:** Tailwind CSS with a custom-built Design System.
 * **Animations:** Framer Motion
-* **AI Integration:** `@google/generative-ai` & Web Speech API
+* **AI Integration:** `@google/generative-ai` (Gemini 1.5 Flash) & Web Speech API
 * **Data Visualization:** Recharts
-* **Icons:** Lucide React
 
 ### Backend Architecture
 * **Runtime:** Node.js + Express.js
@@ -49,18 +49,21 @@
 
 ### Infrastructure & Deployment
 * **Containerization:** Multi-stage Docker build separating frontend static assets and backend Node server.
+* **CI/CD:** GitHub Actions for automated building, testing, and deployment.
+* **Security:** **Workload Identity Federation (WIF)** for keyless, secure authentication between GitHub and GCP.
 * **Cloud Hosting:** Google Cloud Run for highly available, serverless execution.
 
 ---
 
-## 🚀 Architecture
+## 🚀 DevOps & CI/CD
 
-This platform leverages modern web technologies to provide a seamless, highly responsive user experience. 
-The architecture is divided into a robust React frontend and a secure Node.js backend, containerized via Docker for reliable deployment.
+This project uses a robust CI/CD pipeline to ensure every push to `main` is automatically:
+1. **Linted**: Code quality checks for the frontend.
+2. **Built**: Multi-stage Docker containerization.
+3. **Pushed**: Images are stored securely in Google Container Registry (GCR).
+4. **Deployed**: Automatically deployed to Google Cloud Run with zero downtime.
 
 ---
-
-
 
 ## ☁️ Live Deployment
 
