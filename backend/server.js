@@ -11,7 +11,10 @@ import habitRoutes from './src/routes/habitRoutes.js';
 import taskRoutes from './src/routes/taskRoutes.js';
 import goalRoutes from './src/routes/goalRoutes.js';
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.join(__dirname, '.env') });
 
 const app = express();
 
@@ -34,9 +37,7 @@ app.use('/api/habits', habitRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/goals', goalRoutes);
 
-// Serve frontend in production
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../frontend/dist')));
