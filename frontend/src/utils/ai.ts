@@ -7,14 +7,7 @@ if (API_KEY) {
   genAI = new GoogleGenerativeAI(API_KEY);
 }
 
-// Fallback advanced simulation
-const MOCK_RESPONSES: Record<string, string> = {
-  "Help me reflect on today": "Take a deep breath. What was the most prominent emotion you felt today? Often, naming the feeling is the first step to processing it.",
-  "Plan my week": "Let's break it down gently. What are the top 3 priorities that would make you feel accomplished by Friday?",
-  "Suggest habits for my goals": "If you're aiming for better health, try starting with just drinking a glass of water first thing in the morning. Small steps build lasting bridges.",
-  "Summarize my mood pattern": "Looking at your recent logs, you seem to feel more anxious on weekdays, but calm on weekends. Perhaps introducing a 5-minute mindfulness break during work could help?",
-  "default": "I'm analyzing your context... That's a great thought. Tell me more about what's on your mind."
-};
+
 
 const SYSTEM_PROMPT = `
 You are Nirmaan, an elite, highly empathetic, and technologically advanced AI life-operating system companion. 
@@ -40,26 +33,28 @@ export const generateAIResponse = async (prompt: string, context: any = {}): Pro
     } catch (error) {
       console.error("Gemini AI Error:", error);
       // Fallback to simulation if API fails
-      return executeSimulation(prompt);
+      return executeSimulation(prompt, context);
     }
   } else {
     // Advanced Simulation when no API key is present
-    return executeSimulation(prompt);
+    return executeSimulation(prompt, context);
   }
 };
 
-const executeSimulation = async (prompt: string): Promise<string> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const lowerPrompt = prompt.toLowerCase();
-      let response = MOCK_RESPONSES['default'];
-      
-      if (lowerPrompt.includes('reflect') || lowerPrompt.includes('today')) response = MOCK_RESPONSES["Help me reflect on today"];
-      else if (lowerPrompt.includes('plan') || lowerPrompt.includes('week')) response = MOCK_RESPONSES["Plan my week"];
-      else if (lowerPrompt.includes('habit') || lowerPrompt.includes('goal')) response = MOCK_RESPONSES["Suggest habits for my goals"];
-      else if (lowerPrompt.includes('mood') || lowerPrompt.includes('feel')) response = MOCK_RESPONSES["Summarize my mood pattern"];
-      
-      resolve(response);
-    }, 1500); // Simulate network latency
-  });
+const executeSimulation = async (prompt: string, context: any = {}): Promise<string> => {
+  try {
+    let contextualPrompt = `${SYSTEM_PROMPT}\n\n`;
+    if (Object.keys(context).length > 0) {
+      contextualPrompt += `User Context Data:\n${JSON.stringify(context, null, 2)}\n\n`;
+    }
+    contextualPrompt += `User says: "${prompt}"\n\nNirmaan's response:`;
+
+    // Use Pollinations open text API as a free fallback LLM
+    const response = await fetch(`https://text.pollinations.ai/${encodeURIComponent(contextualPrompt)}`);
+    if (!response.ok) throw new Error('Pollinations API failed');
+    return await response.text();
+  } catch (error) {
+    console.error("Pollinations Fallback Error:", error);
+    return "I am experiencing high network latency and cannot process your thoughts right now. Please take a deep breath and try again in a moment.";
+  }
 };
