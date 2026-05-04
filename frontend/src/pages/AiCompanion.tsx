@@ -139,12 +139,13 @@ const AiCompanion = () => {
     }
     
     // Add user message
-    setMessages(prev => [...prev, { role: 'user', content: text, isTypingComplete: true }]);
+    const updatedMessages = [...messages, { role: 'user', content: text, isTypingComplete: true }];
+    setMessages(updatedMessages);
     setInput('');
     setIsTyping(true);
 
     try {
-      const responseText = await generateAIResponse(text, userContext);
+      const responseText = await generateAIResponse(updatedMessages, userContext);
       setMessages(prev => [...prev, { role: 'assistant', content: responseText, isTypingComplete: false }]);
     } catch (error) {
       toast.error("Failed to connect to Nirmaan AI.");

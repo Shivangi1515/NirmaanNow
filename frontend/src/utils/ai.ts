@@ -16,45 +16,57 @@ Keep your responses concise, profound, and deeply helpful. Limit responses to 2-
 Speak with a tone that is ethereal, calm, intelligent, and deeply supportive.
 `;
 
-export const generateAIResponse = async (prompt: string, context: any = {}): Promise<string> => {
+export const generateAIResponse = async (messages: { role: string, content: string }[], context: any = {}): Promise<string> => {
   if (genAI) {
     try {
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
       
+      // Build the chat history for Gemini
+      const chat = model.startChat({
+        history: messages.slice(0, -1).map(msg => ({
+          role: msg.role === 'user' ? 'user' : 'model',
+          parts: [{ text: msg.content }],
+        })),
+        generationConfig: {
+          maxOutputTokens: 500,
+        },
+      });
+
+      const userMessage = messages[messages.length - 1].content;
       let contextualPrompt = `${SYSTEM_PROMPT}\n\n`;
       if (Object.keys(context).length > 0) {
-        contextualPrompt += `User Context Data:\n${JSON.stringify(context, null, 2)}\n\n`;
+        contextualPrompt += `User Context Data (for your awareness):\n${JSON.stringify(context, null, 2)}\n\n`;
       }
-      contextualPrompt += `User says: "${prompt}"\n\nNirmaan's response:`;
+      contextualPrompt += userMessage;
 
-      const result = await model.generateContent(contextualPrompt);
+      const result = await chat.sendMessage(contextualPrompt);
       const response = await result.response;
       return response.text();
     } catch (error) {
       console.error("Gemini AI Error:", error);
-      // Fallback to simulation if API fails
-      return executeSimulation(prompt, context);
+      return executeSimulation(messages, context);
     }
   } else {
-    // Advanced Simulation when no API key is present
-    return executeSimulation(prompt, context);
+    return executeSimulation(messages, context);
   }
 };
 
-const executeSimulation = async (prompt: string, context: any = {}): Promise<string> => {
+const executeSimulation = async (messages: { role: string, content: string }[], context: any = {}): Promise<string> => {
   try {
-    let contextualPrompt = `${SYSTEM_PROMPT}\n\n`;
+    const lastMessage = messages[messages.length - 1].content;
+    const historySnippet = messages.slice(-5, -1).map(m => `${m.role}: ${m.content}`).join('\n');
+    
+    let contextualPrompt = `${SYSTEM_PROMPT}\n\nConversation History:\n${historySnippet}\n\n`;
     if (Object.keys(context).length > 0) {
-      contextualPrompt += `User Context Data:\n${JSON.stringify(context, null, 2)}\n\n`;
+      contextualPrompt += `User Context:\n${JSON.stringify(context, null, 2)}\n\n`;
     }
-    contextualPrompt += `User says: "${prompt}"\n\nNirmaan's response:`;
+    contextualPrompt += `User: ${lastMessage}\nNirmaan:`;
 
-    // Use Pollinations open text API as a free fallback LLM
     const response = await fetch(`https://text.pollinations.ai/${encodeURIComponent(contextualPrompt)}`);
     if (!response.ok) throw new Error('Pollinations API failed');
     return await response.text();
   } catch (error) {
-    console.error("Pollinations Fallback Error:", error);
-    return "I am experiencing high network latency and cannot process your thoughts right now. Please take a deep breath and try again in a moment.";
+    console.error("Simulation Fallback Error:", error);
+    return "I am here and listening, but I'm having trouble connecting to my deep intelligence modules. Let's keep talking, and I'll do my best to support you.";
   }
 };
