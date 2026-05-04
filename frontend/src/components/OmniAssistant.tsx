@@ -41,7 +41,7 @@ export const OmniAssistant = () => {
     e.preventDefault();
     if (!input.trim()) return;
     
-    const updatedMessages = [...messages, { role: 'user', content: userMessage }];
+    const updatedMessages = [...messages, { role: 'user', content: input }];
     setMessages(updatedMessages);
     setInput('');
     setIsTyping(true);
