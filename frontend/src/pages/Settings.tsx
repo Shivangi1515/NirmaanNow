@@ -8,7 +8,6 @@ import { PageHeader } from '../components/PageHeader';
 const Settings = () => {
   const { user } = useAuth();
   const [name, setName] = useState(user?.name || '');
-  const [theme, setTheme] = useState('dark');
   const [notifications, setNotifications] = useState(true);
 
   const handleSave = (e: React.FormEvent) => {
@@ -75,29 +74,6 @@ const Settings = () => {
               <div className="pt-8 border-t border-white/5">
                 <h3 className="text-2xl font-bold mb-6 text-white">Preferences</h3>
                 
-                <div className="flex items-center justify-between mb-8 bg-surface border border-white/5 p-5 rounded-2xl">
-                  <div>
-                    <h4 className="text-white font-medium text-lg">Theme Appearance</h4>
-                    <p className="text-sm text-text-muted mt-1">Select your interface color theme.</p>
-                  </div>
-                  <div className="flex gap-2 bg-navy p-1 rounded-xl border border-white/5">
-                    <button 
-                      type="button"
-                      onClick={() => setTheme('light')}
-                      className={`p-2.5 rounded-lg transition-all duration-300 ${theme === 'light' ? 'bg-white text-navy shadow-md' : 'text-text-muted hover:text-white hover:bg-white/5'}`}
-                    >
-                      <Sun className="w-5 h-5" />
-                    </button>
-                    <button 
-                      type="button"
-                      onClick={() => setTheme('dark')}
-                      className={`p-2.5 rounded-lg transition-all duration-300 ${theme === 'dark' ? 'bg-navy border border-white/10 text-white shadow-md' : 'text-text-muted hover:text-white hover:bg-white/5'}`}
-                    >
-                      <Moon className="w-5 h-5" />
-                    </button>
-                  </div>
-                </div>
-
                 <div className="flex items-center justify-between bg-surface border border-white/5 p-5 rounded-2xl">
                   <div>
                     <h4 className="text-white font-medium text-lg">Daily Reminders</h4>
