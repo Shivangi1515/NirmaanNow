@@ -5,4 +5,4 @@ npm-debug.log
 .git
 .env
 frontend/.env
-backend/.env
+!backend/.env
