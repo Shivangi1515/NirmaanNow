@@ -41,13 +41,13 @@ export const OmniAssistant = () => {
     e.preventDefault();
     if (!input.trim()) return;
     
-    const userMessage = input;
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    const updatedMessages = [...messages, { role: 'user', content: userMessage }];
+    setMessages(updatedMessages);
     setInput('');
     setIsTyping(true);
 
     try {
-      const responseText = await generateAIResponse(userMessage, userContext);
+      const responseText = await generateAIResponse(updatedMessages, userContext);
       setMessages(prev => [...prev, { role: 'assistant', content: responseText }]);
     } catch (error) {
       setMessages(prev => [...prev, { role: 'assistant', content: "I'm having trouble connecting to my neural core right now." }]);
