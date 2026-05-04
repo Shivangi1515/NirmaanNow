@@ -60,52 +60,7 @@ The architecture is divided into a robust React frontend and a secure Node.js ba
 
 ---
 
-## 💻 Local Development Setup
 
-To run NirmaanNow locally, follow these steps:
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/Shivangi1515/NirmaanNow.git
-cd NirmaanNow
-```
-
-### 2. Backend Setup
-Navigate to the backend directory, install dependencies, and configure environment variables.
-```bash
-cd backend
-npm install
-```
-Create a `.env` file in the `backend` folder:
-```env
-PORT=5000
-MONGO_URI=your_mongodb_atlas_connection_string
-JWT_SECRET=your_super_secret_jwt_key
-GOOGLE_CLIENT_ID=your_google_oauth_client_id
-```
-Start the backend server:
-```bash
-npm run dev
-```
-
-### 3. Frontend Setup
-Open a new terminal, navigate to the frontend directory, and set up your environment.
-```bash
-cd frontend
-npm install
-```
-Create a `.env` file in the `frontend` folder:
-```env
-VITE_GOOGLE_CLIENT_ID=your_google_oauth_client_id
-VITE_GEMINI_API_KEY=your_google_gemini_api_key
-```
-Start the Vite development server:
-```bash
-npm run dev
-```
-**Access the app at:** `http://localhost:5173`
-
----
 
 ## ☁️ Live Deployment
 
