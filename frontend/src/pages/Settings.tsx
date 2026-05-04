@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, Bell, Shield, Moon, Sun, Sparkles } from 'lucide-react';
+import { User, Bell, Shield, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';

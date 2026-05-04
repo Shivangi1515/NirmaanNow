@@ -33,7 +33,7 @@ jobs:
     - name: Lint Frontend
       run: |
         cd frontend
-        npm run lint || echo "Linting failed, but continuing deployment..."
+        npm run lint || true
 
     - name: Google Auth
       id: auth
