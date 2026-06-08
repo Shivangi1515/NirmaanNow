@@ -69,7 +69,7 @@ This project uses a robust CI/CD pipeline to ensure every push to `main` is auto
 
 NirmaanNow is fully containerized and deployed on **Google Cloud Run**.
 
-🔗 **Live Platform:** [https://nirmaannow-wywy5r7gga-uc.a.run.app](https://nirmaannow-wywy5r7gga-uc.a.run.app)
+
 
 ---
 <div align="center">
